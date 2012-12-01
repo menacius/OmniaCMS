@@ -1,0 +1,13 @@
+<?
+
+function showAdmin() {
+	echo "<table>
+		<tr>
+			<td><a href='&select=users'>User Management</a></td>
+			<td><a href='&select=posts'>Article Management</a></td>
+			<td><a hfer='&select=tbank'>Time Bank</a></td>
+		</tr>
+	</table>";
+}
+
+?>

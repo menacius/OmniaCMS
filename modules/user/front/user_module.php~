@@ -1,0 +1,21 @@
+<?php
+if (!isset($_POST['check'])) {
+echo '	<form action="user_module.php" method="post">
+		Username:	<input type="text" name="username"></br>
+		Password:	<input type="password" name="password"></br>
+		<input type="hidden" name="check" value="1">
+		<input type="submit" value="Login">
+	</form>';
+} else {
+	include "../../core/connect.php";
+	$sql = mysql_query("SELECT * FROM users WHERE username LIKE '$_POST[username]'");
+	$row = mysql_fetch_array($sql);
+	$encryptusername = crypt($_POST['username'], '2q1FmZpLo');
+	$testpass = crypt('1234','$6$'. $encryptusername);
+	echo $testpass;
+	if (crypt($_POST['password'], $testpass) == $testpass) {
+		echo "password is correct";
+	} else {
+		echo "password is wrong";
+	}
+}

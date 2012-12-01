@@ -1,0 +1,65 @@
+<?php
+function loginForm() {
+?>
+	<form type='login' method='POST'>
+	Username: <br>
+	<input type='text' name='username'><br>
+	Password: <br>
+	<input type='password' name='password'><br>
+	<input type='submit' name='login' value='Login'>
+	</form>
+</div>
+<?
+}
+
+function loginWidget() {
+echo '<div id="widget" class="login_widget">
+	<div class="header">
+		<h3>LOGINWIDGET</h3>
+	</div>';
+if(isset($_SESSION['loggedin'])) {
+	if($_SESSION['4c3e2S']==crypt(3,"bO")){
+		echo "You are already logged in!</br><a href='" . $_SERVER['PHP_SELF'] . "?option=logout'>Logout</a></br><a href='". $_SERVER['PHP_SELF'] . "?page=superuser'>Administration</a>";
+	} else {
+		echo "You are already logged in!</br><a href='" . $_SERVER['PHP_SELF'] . "?option=logout'>Logout</a>";
+	}
+}
+
+if(isset($_POST['login'])) {
+	$name = mysql_real_escape_string($_POST['username']); // The function mysql_real_escape_string() stops hackers!
+	$pass = crypt(mysql_real_escape_string($_POST['password']), "be"); // encrypting the entered password
+	$sql = mysql_query("SELECT * FROM users WHERE username = '{$name}' AND password = '{$pass}'"); // This code uses MySQL to get all of the users in the database with that username and password.
+
+	$data = mysql_fetch_array($sql); //fetching the mysql row
+   
+	if(mysql_num_rows($sql) < 1) {
+		echo "Wrong login!";
+	} // That snippet checked to see if the number of rows the MySQL query was less than 1, so if it couldn't find a row, the password is incorrect or the user doesn't exist!
+	$access = crypt($data['rights'], "bO"); //encrypting the user access rights
+	
+	if($data['rights'] == "0") {
+		echo "You are banned!";
+	}
+	$userid = mysql_real_escape_string($data['userid']);
+	$_SESSION['loggedin'] = "YES"; // Set it so the user is logged in!
+	$_SESSION['name'] = $name; // Make it so the username can be called by $_SESSION['name']
+	$_SESSION['4c3e2S'] = $access; //setting the access rights as Session key
+	$_SESSION['userid'] = $userid;
+	
+	if ($data['rights'] == "3") {
+		echo "You are now logged in!</br><a href='". $_SERVER['PHP_SELF'] . "?page=superuser'>Administration</a>";
+	} else {
+		echo "You are now logged in!"; // Kill the script here so it doesn't show the login form after you are logged in!
+	}
+}// That bit of code logs you in! The "$_POST['submit']" bit is the submission of the form down below VV
+if(!isset($_SESSION['loggedin'])) {
+loginForm();
+}
+if(isset($_GET['option'])) {
+	if($_GET['option']=='logout') {
+		session_destroy();
+	}
+}
+}
+
+?>

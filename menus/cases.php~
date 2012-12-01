@@ -1,0 +1,22 @@
+<?
+if (isset($_GET['page'])) {
+	$page = $_GET['page'];
+	switch($page) {
+		case 'articles' :
+			include "modules/posts/front/articles.php";
+			if (isset($_GET['article_id')) {
+				showArticle($_GET['article_id'];
+				break;
+			}
+			listArticles();
+			break;
+		
+		case 'superuser' :
+			if($_SESSION['4c3e2S']==crypt(3,"bO")) {
+				showAdmin();
+				break;
+			}
+			denyAccess();
+			break;
+	}
+}

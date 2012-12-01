@@ -1,0 +1,18 @@
+<?php
+
+?>
+<html>
+	<head>
+		<title><?echo $SITENM?></title>
+	</head>
+	<body>
+		<h3><?echo $SITENM?></h3>
+		<table border="1">
+			<tr>
+				<td width="100px"><?login_widget();?></td>
+				<td width="600px"><??></td>
+				<td width="100px">Right</td>
+			</tr>
+		</table>
+	<body>
+</html>

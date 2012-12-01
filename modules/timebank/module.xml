@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<name>Timebank Module</name>
+	<description>The TimeBank module</description>
+	<developer>Menacius Politis</developer>
+	<email>menace82@gmail.com</email>
+	<date>18/11/2012</date>
+	<version>0.01v</version>
+	<licence>GPL</licence>
+	<essential>0</essential>
+	<widgets>
+		latestposts
+		frontpageposts
+	</widgets>
+	<files>
+		test.php
+	</files>
+</module>

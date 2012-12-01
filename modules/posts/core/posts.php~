@@ -1,0 +1,149 @@
+<?php
+if (isset($_GET['option'])) {
+	$options=$_GET['option'];
+	switch($options) {
+		case 'add' :
+			addPost($dbArray);
+			break;
+		
+		case 'view' :
+			viewPosts();
+			break;
+		
+		case 'edit' :
+			editPost($dbArray);
+			break;
+		
+		case 'del' :
+			deletePost();
+			break;
+		
+		default :
+			viewPosts();
+			break;
+	}
+}
+
+function addPost($dbArray) {
+	$con = $dbArray['con'];
+	if (!isset($_POST['check'])) {
+		echo '	<form action="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=add" method="post">
+		Post Title:	<input type="text" name="postheader">
+		Published: <input type="checkbox" name="published" value="1">
+		Post Category:	<select name="postcategory">Category</option></br>';
+		$csql= mysql_query("SELECT postcategoryid, postcategoryname FROM postcategories");
+		while($row=mysql_fetch_array($csql)) {
+			echo "<option value=$row[postcategoryid]>$row[postcategoryname]</option>";
+		}
+		echo '</select>
+		<textarea rows="15" cols="100" name="post"></textarea></br>
+		Tags:	<input type="text" name="tags"></br>
+		<input type="hidden" name="check" value="1">
+		<input type="submit" value="Submit"><input type="reset" value="Reset Form">
+		</form>';
+	} else {
+		$posttime=date('Y-m-d H:i:s');
+		$sql="INSERT INTO posts (postheader, postcategoryid, post, postdate, userid, publish) VALUES ('$_POST[postheader]','$_POST[postcategory]','$_POST[post]','" . $posttime ."','2','$_POST[published]')";
+		if (!mysql_query($sql,$con)) {
+			die('Error: ' . mysql_error());
+		}
+		echo "Data added!";
+		echo "<a href='?option=view'>Return</a>";
+	}
+}
+
+function viewPosts() {
+	echo '<a href="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=add">New Post</a> | <a href="categories.php?option="view">View Categories</a> | <a href="categories.php?option=add">New Category</a></br>';
+	$postsql = mysql_query("SELECT * FROM
+	(postcategories LEFT JOIN posts ON postcategories.postcategoryid = posts.postcategoryid)
+	LEFT JOIN users ON posts.userid = users.userid
+	WHERE posts.postid IS NOT NULL");
+	echo "	<table>
+	<tr>
+	<th>ID</th>
+	<th>Article</th>
+	<th>Category</th>
+	<th>Date/Time</th>
+	<th>User</th>
+	</tr>";
+
+	while($row = mysql_fetch_array($postsql)) {
+		echo "	<tr>
+		<td>" . $row['postid'] . "</td>
+		<td>" . $row['postheader'] . "</td>
+		<td>" . $row['postcategoryname'] . "</td>
+		<td>" . $row['postdate'] . "</td>
+		<td>" . $row['username'] . "</td>";
+		if ($row['publish']=='0'){
+			echo "<td>Unpublished</td>";
+		} else {
+			echo "<td>Published</td>";
+		}
+		echo "<td><a href='posts.php?option=edit&post=" . $row['postid'] . "'>Edit</a></td>
+		<td><a href='posts.php?option=del&post=" . $row['postid'] . "'>X</a></td>
+		</tr>";
+	}
+	echo "</table>";
+	echo "<a href='index.php'>Return</a>";
+}
+
+function deletePost() {
+	$postid = $_GET['post'];
+	$sql = mysql_query("SELECT * FROM posts WHERE postid LIKE '$postid'");
+	$row = mysql_fetch_array($sql);
+	if (!isset($_GET['delete'])) {
+		echo "Are you sure that you want to delete <b>". $row['postheader'] . "</b> ?</br>
+		<a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts&option=del&post=" . $row['postid'] . "&delete=1'>YES</a>
+		<a href='posts.php?option=view'>NO</a>";
+	} else {
+		echo "The post <b>". $row['postheader'] . "</b> deleted!</br>";
+		mysql_query("DELETE FROM posts WHERE postid='$postid'");
+		echo "<a href='" . $_SERVER['PHP_SELF'] . "'?page=superuser&select=posts&option=view>Return</a>";
+	}
+}
+
+function editPost($dbArray) {
+	$con = $dbArray['con'];
+	$postid = $_GET['post'];
+	$sql = mysql_query("SELECT * FROM posts WHERE postid LIKE '$postid'");
+	if (!isset($_POST['check'])) {
+		$data = mysql_fetch_array($sql);
+		echo '	<form action="' . $_SERVER['PHP_SELF'] . '"?page=superuser&select=posts&option=edit&post=' . $postid . '" method="post">
+		Post Title:	<input type="text" name="postheader" value="' . $data['postheader'] . '">';
+		if ($data['publish']=="1") {
+			echo 'Published: <input type="checkbox" name="published" value="1" checked>';
+		} else {
+			echo 'Published: <input type="checkbox" name="published" value="1">';
+		}
+		echo 'Post Category:	<select name="postcategory">Category</option></br>';
+		$csql= mysql_query("SELECT postcategoryid, postcategoryname FROM postcategories");
+		while($row=mysql_fetch_array($csql)) {
+			if ($row[postcategoryid]==$data[postcategoryid]) {
+				echo "<option value=$row[postcategoryid] selected>$row[postcategoryname]</option>";
+			} else {
+				echo "<option value=$row[postcategoryid]>$row[postcategoryname]</option>";
+			}
+		}
+		echo '</select>
+		<textarea rows="15" cols="100" name="post">' . $data[post] . '</textarea></br>
+		Tags:	<input type="text" name="tags"></br>
+		<input type="hidden" name="check" value="1">
+		<input type="submit" value="Submit">
+		</form>
+		<a href="posts.php?option=view">Cancel</a>';
+	} else {
+		if (isset($_POST['published'])) {
+			$pub = 1;
+		} else {
+			$pub = 0;
+		}
+		$sql="UPDATE posts SET postheader='$_POST[postheader]', postcategoryid='$_POST[postcategory]', post='$_POST[post]', publish='$pub' WHERE postid='$postid'";
+		if (!mysql_query($sql,$con)) {
+			die('Error: ' . mysql_error());
+		}
+		echo "Data modified!";
+		echo "<a href='posts.php?option=view'>Return</a>";
+	}
+}
+
+?>
