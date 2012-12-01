@@ -3,7 +3,7 @@ if (isset($_GET['option'])) {
 	$options=$_GET['option'];
 	switch($options) {
 		case 'add' :
-			addTBCategory($dbArray);
+			addTBCategory();
 			break;
 		
 		case 'view' :
@@ -11,7 +11,7 @@ if (isset($_GET['option'])) {
 			break;
 		
 		case 'edit' :
-			editTBCategory($dbArray);
+			editTBCategory();
 			break;
 		
 		case 'del' :

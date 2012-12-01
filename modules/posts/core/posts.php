@@ -3,7 +3,7 @@ if (isset($_GET['option'])) {
 	$options=$_GET['option'];
 	switch($options) {
 		case 'add' :
-			addPost($dbArray);
+			addPost();
 			break;
 		
 		case 'view' :
@@ -11,7 +11,7 @@ if (isset($_GET['option'])) {
 			break;
 		
 		case 'edit' :
-			editPost($dbArray);
+			editPost();
 			break;
 		
 		case 'del' :
@@ -25,7 +25,7 @@ if (isset($_GET['option'])) {
 }
 
 function addPost() {
-	$con = $dbArray['con'];
+	$con = $GLOBALS['con'];
 	if (!isset($_POST['check'])) {
 		echo '	<form action="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=add" method="post">
 		Post Title:	<input type="text" name="postheader">
@@ -48,7 +48,7 @@ function addPost() {
 			die('Error: ' . mysql_error());
 		}
 		echo "Data added!";
-		echo "<a href='?option=view'>Return</a>";
+		echo "<a href='" . $_SERVER['PHP_SELF'] . "'?page=superuser&select=posts&option=view'>Return</a>";
 	}
 }
 
@@ -79,8 +79,8 @@ function viewPosts() {
 		} else {
 			echo "<td>Published</td>";
 		}
-		echo "<td><a href='posts.php?option=edit&post=" . $row['postid'] . "'>Edit</a></td>
-		<td><a href='posts.php?option=del&post=" . $row['postid'] . "'>X</a></td>
+		echo "<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts&option=edit&post=" . $row['postid'] . "'>Edit</a></td>
+		<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts&option=del&post=" . $row['postid'] . "'>X</a></td>
 		</tr>";
 	}
 	echo "</table>";
@@ -102,8 +102,8 @@ function deletePost() {
 	}
 }
 
-function editPost($dbArray) {
-	$con = $dbArray['con'];
+function editPost() {
+	$con = $GLOBALS['con'];
 	$postid = $_GET['post'];
 	$sql = mysql_query("SELECT * FROM posts WHERE postid LIKE '$postid'");
 	if (!isset($_POST['check'])) {
@@ -130,7 +130,7 @@ function editPost($dbArray) {
 		<input type="hidden" name="check" value="1">
 		<input type="submit" value="Submit">
 		</form>
-		<a href="posts.php?option=view">Cancel</a>';
+		<a href="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=view">Cancel</a>';
 	} else {
 		if (isset($_POST['published'])) {
 			$pub = 1;
@@ -142,7 +142,7 @@ function editPost($dbArray) {
 			die('Error: ' . mysql_error());
 		}
 		echo "Data modified!";
-		echo "<a href='posts.php?option=view'>Return</a>";
+		echo "<a href='" . $_SERVER['PHP_SELF'] . "'?page=superuser&select=posts&option=view'>Return</a>";
 	}
 }
 
