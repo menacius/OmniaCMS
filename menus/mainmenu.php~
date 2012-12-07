@@ -16,7 +16,7 @@ function menuSet(){
 			case 'superuser' :
 				if($_SESSION['4c3e2S']==crypt(3,"bO")) {
 					if(isset($_GET['select'])) {
-						Adminselect($_GET['select']);
+						adminSelect($_GET['select']);
 						break;
 					}
 					showAdmin();
@@ -29,7 +29,7 @@ function menuSet(){
 }
 
 function mainMenu(){
-echo '<ul>
+echo '<ul id="mainmenu" class="topmenulevel">
 	<li><a href="' . $_SERVER['PHP_SELF'] . '?page=articles">Articles</a></li>
 </ul>';
 }

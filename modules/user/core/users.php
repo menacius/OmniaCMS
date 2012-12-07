@@ -20,9 +20,11 @@ if (isset($_GET['option'])) {
 			break;
 		
 		default :
-			viewUsers();
+			users();
 			break;
 	}
+} else {
+	users();
 }
 
 function addUser() {

@@ -1,0 +1,85 @@
+body, html {
+	font-family:arial;
+	font-size:10px;
+	margin:0;
+	padding:0;
+}
+
+a, a:visited {
+	color:#F80;
+	text-decoration:none;
+}
+#adminicon {
+	width:96px;
+	height:128px;
+}
+
+#adminicon .icon {
+	width:96px;
+	height:96px;
+	background: url("images/unknown.png") no-repeat;
+	background-size:96px 96px;
+}
+
+#adminicon .users {
+	background: url("images/users.png") no-repeat;
+	background-size:96px 96px;
+}
+
+#adminicon .iconname{
+	font-size:11px;
+	color:#333;
+	text-align:center;
+	font-style:none;
+}
+#mainmenu li{
+	list-style-type:none;
+	color:#fff;
+	padding-right:10px;
+	float:left;
+}
+
+#mainmenu li a {
+	color:#fff;
+	font-size:16px;
+	font-weight:bold;
+	line-height:32px;
+}
+
+#wrapper {
+	width:1000px;
+	margin:auto;
+}
+#topmenu{
+	background-color:#333;
+	height:32px;
+	margin-right:120px;
+}
+#topsearch {
+	background-color:#666;
+	height:32px;
+	width:120px;
+	float:right;
+}
+#header {
+	height:100px;
+	background-color:#EEE;
+}
+
+#left {
+	float:left;
+	width:200px;
+	margin:0;
+	padding:0;
+
+}
+
+#content {
+	margin:0 0 0 200px;
+}
+
+#footer {
+	background-color:#333;
+	height:50px;
+	clear:both;
+}

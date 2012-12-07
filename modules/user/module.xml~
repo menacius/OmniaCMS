@@ -8,6 +8,7 @@
        <version>0.01v</version>
        <licence>GPL</licence>
        <essential>1</essential>
+       <icon></icon>
        <widgets>
 	       login
        </widgets>

@@ -57,7 +57,10 @@ loginForm();
 }
 if(isset($_GET['option'])) {
 	if($_GET['option']=='logout') {
-		session_destroy();
+		   session_start();
+		   session_destroy();
+		   header("Location: index.php");
+		   exit();
 	}
 }
 }

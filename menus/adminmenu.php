@@ -2,13 +2,24 @@
 if (isset($_SESSION['4c3e2S'])) {
 	if($_SESSION['4c3e2S']==crypt(3,"bO")) {
 		function showAdmin() {
-			echo "<table>
-				<tr>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=users&option=view'>User Management</a></td>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts&option=view'>Article Management</a></td>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=tbank'>Time Bank</a></td>
-				</tr>
-			</table>";
+			echo "<a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=users'>
+				<div id='adminicon'>
+					<div class='users icon'></div>
+					<div class='iconname'>Users</div>
+				</div>
+			</a>
+			<a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts'>
+				<div id='adminicon'>
+					<div class='posts icon'></div>
+					<div class='iconname'>Articles</div>
+				</div>
+			</a>
+			<a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=tbank'>
+				<div id='adminicon'>
+					<div class='tbank icon'></div>
+					<div class='iconname'>Time Bank</div>
+				</div>
+			</a>";
 		}
 		
 		function adminSelect($adminselect) {

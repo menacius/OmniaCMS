@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-	<name>Timebank Module</name>
+	<name>timebank</name>
 	<description>The TimeBank module</description>
 	<developer>Menacius Politis</developer>
 	<email>menace82@gmail.com</email>
@@ -8,6 +8,7 @@
 	<version>0.01v</version>
 	<licence>GPL</licence>
 	<essential>0</essential>
+	<icon></icon>
 	<widgets>
 		latestposts
 		frontpageposts

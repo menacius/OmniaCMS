@@ -29,7 +29,8 @@ function menuSet(){
 }
 
 function mainMenu(){
-echo '<ul>
+echo '<ul id="mainmenu" class="topmenulevel">
+	<li><a href="' . $_SERVER['PHP_SELF'] . '">Home</a></li>
 	<li><a href="' . $_SERVER['PHP_SELF'] . '?page=articles">Articles</a></li>
 </ul>';
 }

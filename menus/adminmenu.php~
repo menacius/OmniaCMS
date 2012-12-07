@@ -2,13 +2,11 @@
 if (isset($_SESSION['4c3e2S'])) {
 	if($_SESSION['4c3e2S']==crypt(3,"bO")) {
 		function showAdmin() {
-			echo "<table>
-				<tr>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=users&option=view'>User Management</a></td>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts'>Article Management</a></td>
-					<td><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=tbank'>Time Bank</a></td>
-				</tr>
-			</table>";
+			echo "<ul>
+					<li><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=users'>User Management</a></li>
+					<li><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=posts'>Article Management</a></li>
+					<li><a href='" . $_SERVER['PHP_SELF'] . "?page=superuser&select=tbank'>Time Bank</a></li>
+				</ul>";
 		}
 		
 		function adminSelect($adminselect) {

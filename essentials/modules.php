@@ -1,6 +1,10 @@
  <?
-$typeofmodule = "template";
+include "../config/config.php"; 
 
+$typeofmodule = "module";
+function scanModules(){
+$SITERT = $GLOBALS['SITERT'];
+$typeofmodule = $GLOBALS['typeofmodule'];
 $modulefolders = scandir($SITERT . "/" . $typeofmodule . "s"); //The initial folder for module scan
 foreach ($modulefolders as $modulefolder) { //Locate modules subfolders
 	$moduleinfos = scandir($SITERT . "/" . $typeofmodule . "s/" . $modulefolder); //Re-initiate folder scan adding subfolders
@@ -15,15 +19,17 @@ foreach ($modulefolders as $modulefolder) { //Locate modules subfolders
 		}
 	}
 }
-
+}
 
 if (isset($_GET['option'])) { //if you want to see the module details
 	$options=$_GET['option'];
 	switch($options) {
 		case 'view' :
+			scanModules();
 			viewModules($modules,$_GET['module']);
 			break;
 		case 'list' :
+			scanModules();
 			listModules($modules);
 			break;
 	}

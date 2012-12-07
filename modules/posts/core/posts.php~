@@ -108,7 +108,7 @@ function editPost() {
 	$sql = mysql_query("SELECT * FROM posts WHERE postid LIKE '$postid'");
 	if (!isset($_POST['check'])) {
 		$data = mysql_fetch_array($sql);
-		echo '	<form action="' . $_SERVER['PHP_SELF'] . '"?page=superuser&select=posts&option=edit&post=' . $postid . '" method="post">
+		echo '	<form action="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=edit&post=' . $postid . '" method="post">
 		Post Title:	<input type="text" name="postheader" value="' . $data['postheader'] . '">';
 		if ($data['publish']=="1") {
 			echo 'Published: <input type="checkbox" name="published" value="1" checked>';
@@ -130,7 +130,7 @@ function editPost() {
 		<input type="hidden" name="check" value="1">
 		<input type="submit" value="Submit">
 		</form>
-		<a href="posts.php?option=view">Cancel</a>';
+		<a href="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=view">Cancel</a>';
 	} else {
 		if (isset($_POST['published'])) {
 			$pub = 1;
@@ -142,7 +142,7 @@ function editPost() {
 			die('Error: ' . mysql_error());
 		}
 		echo "Data modified!";
-		echo "<a href='posts.php?option=view'>Return</a>";
+		echo "<a href='" . $_SERVER['PHP_SELF'] . "'?page=superuser&select=posts&option=view'>Return</a>";
 	}
 }
 

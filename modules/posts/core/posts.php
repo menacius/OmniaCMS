@@ -43,7 +43,7 @@ function addPost() {
 		</form>';
 	} else {
 		$posttime=date('Y-m-d H:i:s');
-		$sql="INSERT INTO posts (postheader, postcategoryid, post, postdate, userid, publish) VALUES ('$_POST[postheader]','$_POST[postcategory]','$_POST[post]','" . $posttime ."','2','$_POST[published]')";
+		$sql="INSERT INTO posts (postheader, postcategoryid, post, postdate, userid, publish) VALUES ('$_POST[postheader]','$_POST[postcategory]','$_POST[post]','" . $posttime ."','$_SESSION[userid]','$_POST[published]')";
 		if (!mysql_query($sql,$con)) {
 			die('Error: ' . mysql_error());
 		}
@@ -108,7 +108,7 @@ function editPost() {
 	$sql = mysql_query("SELECT * FROM posts WHERE postid LIKE '$postid'");
 	if (!isset($_POST['check'])) {
 		$data = mysql_fetch_array($sql);
-		echo '	<form action="' . $_SERVER['PHP_SELF'] . '"?page=superuser&select=posts&option=edit&post=' . $postid . '" method="post">
+		echo '	<form action="' . $_SERVER['PHP_SELF'] . '?page=superuser&select=posts&option=edit&post=' . $postid . '" method="post">
 		Post Title:	<input type="text" name="postheader" value="' . $data['postheader'] . '">';
 		if ($data['publish']=="1") {
 			echo 'Published: <input type="checkbox" name="published" value="1" checked>';
